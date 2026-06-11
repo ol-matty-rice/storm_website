@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Table | Field-to-Fork Catering & Photography · Eastern Washington</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: #F2EBD9;
+      color: #2C3E2D;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Tokens ── */
+    :root {
+      --forest:    #2C3E2D;
+      --bark:      #5C3D1E;
+      --stone:     #A89880;
+      --parchment: #F2EBD9;
+      --ember:     #C4621A;
+      --cream:     #FAF6EE;
+      --rule:      rgba(92,61,30,0.25);
+    }
+
+    /* ── Field Journal Divider ── */
+    .field-rule {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.4rem 0;
+      width: 100%;
+    }
+    .field-rule::before,
+    .field-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+    .field-rule span {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--stone);
+      white-space: nowrap;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      background: transparent;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(44,62,45,0.96);
+      backdrop-filter: blur(6px);
+      padding: 0.75rem 3rem;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--parchment);
+      letter-spacing: 0.04em;
+    }
+    .nav-logo em {
+      font-style: italic;
+      color: #D9845A;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.85);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #D9845A; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(20,28,20,0.82) 30%, rgba(20,28,20,0.15) 70%, transparent 100%),
+        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1800&q=80') center/cover no-repeat;
+    }
+    /* Subtle parallax feel via background-attachment */
+    @media (min-width: 768px) {
+      .hero-bg { background-attachment: fixed; }
+    }
+    .hero-content {
+      position: relative;
+      padding: 0 3rem 5rem;
+      max-width: 860px;
+    }
+    .hero-eyebrow {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #D9845A;
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 1.02;
+      color: var(--parchment);
+    }
+    .hero-title em {
+      font-style: italic;
+      color: #D9845A;
+    }
+    .hero-sub {
+      margin-top: 1.4rem;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: rgba(242,235,217,0.8);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    .hero-cta-row {
+      margin-top: 2.4rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: var(--ember);
+      color: var(--parchment);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #A54E12; transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: transparent;
+      color: var(--parchment);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid rgba(242,235,217,0.45);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--parchment); color: var(--parchment); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.2rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(242,235,217,0.5);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: rgba(242,235,217,0.35);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.9; transform: scaleY(1.15); }
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      padding: 5rem 0;
+    }
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      filter: sepia(15%) contrast(1.05);
+    }
+    .about-badge {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      width: 120px;
+      height: 120px;
+      background: var(--ember);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+    }
+    .about-badge span:first-child {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--parchment);
+      line-height: 1;
+    }
+    .about-badge span:last-child {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.8);
+      text-align: center;
+    }
+    .section-eyebrow {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.9rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.9rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--forest);
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--bark);
+    }
+    .body-text {
+      margin-top: 1.4rem;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #3d3028;
+      max-width: 520px;
+    }
+    .body-text + .body-text { margin-top: 1rem; }
+    .about-details {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .about-detail-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      color: var(--bark);
+      letter-spacing: 0.05em;
+    }
+    .about-detail-item::before {
+      content: '—';
+      color: var(--stone);
+    }
+
+    /* ── SERVICES ── */
+    .services-bg {
+      background: var(--forest);
+      color: var(--parchment);
+      padding: 5rem 0;
+    }
+    .services-bg .section-title { color: var(--parchment); }
+    .services-bg .section-eyebrow { color: #D9845A; }
+    .services-bg .body-text { color: rgba(242,235,217,0.75); }
+    .services-bg .field-rule::before,
+    .services-bg .field-rule::after { background: rgba(242,235,217,0.15); }
+    .services-bg .field-rule span { color: rgba(242,235,217,0.4); }
+
+    .services-intro {
+      max-width: 640px;
+      margin-bottom: 3.5rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.04);
+      padding: 2.5rem 2rem;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+      cursor: default;
+    }
+    .service-card:hover {
+      border-top-color: var(--ember);
+      background: rgba(255,255,255,0.07);
+    }
+    .service-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      line-height: 1;
+    }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--parchment);
+      margin-bottom: 0.8rem;
+    }
+    .service-desc {
+      font-size: 0.93rem;
+      font-weight: 300;
+      color: rgba(242,235,217,0.65);
+      line-height: 1.75;
+    }
+    .service-tag-list {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .service-tag {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid rgba(196,98,26,0.45);
+      color: #D9845A;
+    }
+
+    /* ── ADVENTURES / PHOTO STRIP ── */
+    .photo-strip {
+      overflow: hidden;
+      background: var(--parchment);
+      padding: 5rem 0;
+    }
+    .strip-header {
+      padding: 0 2.5rem;
+      max-width: 1180px;
+      margin: 0 auto 2.5rem;
+    }
+    .gallery-scroll {
+      display: flex;
+      gap: 1rem;
+      padding: 0 2.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-item:nth-child(odd) { width: 340px; height: 480px; }
+    .gallery-item:nth-child(even) { width: 260px; height: 380px; align-self: center; }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(12%) contrast(1.06) saturate(0.92);
+      transition: filter 0.5s, transform 0.5s;
+    }
+    .gallery-item:hover img {
+      filter: sepia(5%) contrast(1.1) saturate(1.05);
+      transform: scale(1.03);
+    }
+    .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.2rem 1rem;
+      background: linear-gradient(transparent, rgba(20,28,20,0.75));
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.85);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .gallery-item:hover .gallery-label { opacity: 1; }
+
+    /* ── TERRITORY ── */
+    .territory {
+      background: var(--bark);
+      color: var(--parchment);
+      padding: 5rem 0;
+    }
+    .territory .section-eyebrow { color: #D9845A; }
+    .territory .section-title { color: var(--parchment); }
+    .territory-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    .territory-text .body-text { color: rgba(242,235,217,0.8); max-width: 100%; }
+    .territory-text .body-text + .body-text { margin-top: 1rem; }
+    .region-list {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+    }
+    .region-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: rgba(242,235,217,0.8);
+    }
+    .region-item::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--ember);
+      flex-shrink: 0;
+    }
+    .territory-map {
+      position: relative;
+    }
+    .territory-map img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      filter: sepia(30%) contrast(1.1);
+    }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(92,61,30,0.3) 0%, transparent 60%);
+    }
+
+    /* ── FIELD PHILOSOPHY ── */
+    .philosophy {
+      background: var(--cream);
+      padding: 5rem 0;
+    }
+    .philosophy-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin-top: 3rem;
+    }
+    .philosophy-block {
+      background: var(--cream);
+      padding: 2.8rem 2.2rem;
+    }
+    .philosophy-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: rgba(196,98,26,0.18);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .philosophy-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.8rem;
+    }
+    .philosophy-text {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: #5a4d3d;
+      line-height: 1.8;
+    }
+
+    /* ── PULLQUOTE ── */
+    .pullquote {
+      background: var(--ember);
+      padding: 4rem 2.5rem;
+      text-align: center;
+    }
+    .pullquote blockquote {
+      max-width: 720px;
+      margin: 0 auto;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-weight: 400;
+      color: var(--parchment);
+      line-height: 1.5;
+    }
+    .pullquote cite {
+      display: block;
+      margin-top: 1.4rem;
+      font-family: 'Courier Prime', monospace;
+      font-style: normal;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.7);
+    }
+
+    /* ── PHOTOGRAPHY SECTION ── */
+    .photography {
+      background: var(--parchment);
+      padding: 5rem 0;
+    }
+    .photo-two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    .photo-feature img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      filter: sepia(10%) contrast(1.06);
+    }
+    .photo-caption {
+      margin-top: 0.75rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--stone);
+      text-transform: uppercase;
+    }
+    .photo-copy .body-text { max-width: 100%; }
+    .photo-meta-list {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .photo-meta-item {
+      border-left: 2px solid var(--ember);
+      padding-left: 1.2rem;
+    }
+    .photo-meta-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 0.2rem;
+    }
+    .photo-meta-value {
+      font-size: 0.95rem;
+      color: var(--forest);
+      font-weight: 600;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--forest);
+      padding: 6rem 0;
+      color: var(--parchment);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+    .contact .section-eyebrow { color: #D9845A; }
+    .contact .section-title { color: var(--parchment); }
+    .contact .body-text { color: rgba(242,235,217,0.7); max-width: 100%; }
+    .contact-info {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .contact-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .contact-info-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.4);
+    }
+    .contact-info-value {
+      font-size: 1rem;
+      color: var(--parchment);
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(242,235,217,0.5);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(242,235,217,0.18);
+      padding: 0.8rem 1rem;
+      color: var(--parchment);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-group select option { background: var(--forest); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--ember);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(242,235,217,0.3); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      align-self: flex-start;
+      background: var(--ember);
+      color: var(--parchment);
+      border: none;
+      padding: 1rem 2.8rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { background: #A54E12; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1a2318;
+      padding: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(242,235,217,0.6);
+    }
+    .footer-logo em { font-style: italic; color: #C4621A; }
+    .footer-copy {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(242,235,217,0.3);
+      text-align: center;
+    }
+    .footer-coords {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: rgba(242,235,217,0.3);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav.scrolled { padding: 0.75rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 1.5rem 4rem; }
+      .about-grid,
+      .territory-grid,
+      .photo-two-col,
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-img-wrap img,
+      .photo-feature img,
+      .territory-map img { height: 320px; }
+      .about-badge { right: 0.5rem; bottom: 0.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .philosophy-inner { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .container { padding: 0 1.5rem; }
+      .hero-scroll { display: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <div class="nav-logo"><em>Wild</em> Table</div>
+    <ul class="nav-links">
+      <li><a href="#about">The Chef</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#adventures">Adventures</a></li>
+      <li><a href="#photography">Photography</a></li>
+      <li><a href="#contact">Book Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Eastern Washington · Pacific Northwest</p>
+      <h1 class="hero-title">
+        Fine food.<br>
+        <em>Untamed</em><br>
+        country.
+      </h1>
+      <p class="hero-sub">Premium field catering and documentary photography for those who live, work, and play where the land is still wild.</p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="btn-primary">Book Your Event</a>
+        <a href="#services" class="btn-ghost">Our Services</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about" style="background: var(--parchment);">
+    <div class="container">
+      <div class="field-rule"><span>46.73° N · 117.00° W · Palouse Country</span></div>
+      <div class="about-grid" style="margin-top: 2rem;">
+        <div class="about-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&q=80"
+            alt="Chef preparing a meal in the field"
+          />
+          <div class="about-badge">
+            <span>15+</span>
+            <span>Years in the Field</span>
+          </div>
+        </div>
+        <div class="about-copy">
+          <p class="section-eyebrow">The Chef</p>
+          <h2 class="section-title">Where the kitchen<br>has <em>no walls.</em></h2>
+          <p class="body-text">Born and raised in Eastern Washington, our chef grew up along the coulees and wheat fields that define this corner of the Northwest. He traded the line cook's apron for a cast-iron skillet, a pack mule, and a camera — and never looked back.</p>
+          <p class="body-text">Every menu is built from what the land and season offer: freshly harvested game, river-caught fish, foraged greens, and the hardwood smoke of open-fire cooking. It's food that earns its place at the table.</p>
+          <div class="about-details">
+            <div class="about-detail-item">Trained in Pacific Northwest & Mountain West culinary traditions</div>
+            <div class="about-detail-item">Expert in open-fire, Dutch oven & camp-kitchen cooking</div>
+            <div class="about-detail-item">Licensed food handler · Full event insurance</div>
+            <div class="about-detail-item">Award-winning field & wildlife photographer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services-bg" id="services">
+    <div class="container">
+      <div class="field-rule"><span>What We Offer</span></div>
+      <div class="services-intro" style="margin-top: 1.5rem;">
+        <p class="section-eyebrow">Services</p>
+        <h2 class="section-title">Built for the way<br><em>you live out there.</em></h2>
+        <p class="body-text">Whether you're running a week-long guided hunt, hosting a corporate ranch retreat, or need a photographer who can keep up with the raft — we've got you covered.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🌊</div>
+          <h3 class="service-title">River & Raft Catering</h3>
+          <p class="service-desc">Multi-day meal programs for whitewater expeditions on the Snake, Salmon, Methow, and Wenatchee rivers. Hearty, packable, and worthy of the miles.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Snake River</span>
+            <span class="service-tag">Multi-day</span>
+            <span class="service-tag">Dietary options</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🦌</div>
+          <h3 class="service-title">Hunt Camp Catering</h3>
+          <p class="service-desc">From elk camp breakfasts at 4 a.m. to celebratory harvest dinners, we deliver full-service catering that matches the ambition of the hunt.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Elk & Deer</span>
+            <span class="service-tag">Upland Birds</span>
+            <span class="service-tag">Waterfowl</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🐄</div>
+          <h3 class="service-title">Ranch & Estate Events</h3>
+          <p class="service-desc">Private ranch dinners, branding day meals, corporate retreats, and family reunions — elevated, unpretentious food that respects the land you're on.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Private Events</span>
+            <span class="service-tag">Corporate</span>
+            <span class="service-tag">Seasonal Menus</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📷</div>
+          <h3 class="service-title">Field Photography</h3>
+          <p class="service-desc">Documentary and fine-art photography of your adventure, operation, or event. High-resolution, print-ready images that capture the real character of your work.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Wildlife</span>
+            <span class="service-tag">Editorial</span>
+            <span class="service-tag">Commercial</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🍽️</div>
+          <h3 class="service-title">Chef's Tasting Dinners</h3>
+          <p class="service-desc">Intimate, reservation-only dinners at remote and scenic locations across Eastern Washington. A curated evening for up to 20 guests.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Up to 20 guests</span>
+            <span class="service-tag">Seasonal</span>
+            <span class="service-tag">Remote venues</span>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎯</div>
+          <h3 class="service-title">Custom Expeditions</h3>
+          <p class="service-desc">Something that doesn't fit the list? We build entirely custom packages — catering, photography, and logistics — for unique back-country events and operations.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Fully custom</span>
+            <span class="service-tag">Logistics support</span>
+            <span class="service-tag">NW-wide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVENTURES / GALLERY -->
+  <section class="photo-strip" id="adventures">
+    <div class="strip-header">
+      <div class="field-rule"><span>From the Field</span></div>
+      <p class="section-eyebrow" style="margin-top: 1.5rem;">Adventures</p>
+      <h2 class="section-title">The places we've<br><em>cooked & shot.</em></h2>
+    </div>
+    <div class="gallery-scroll">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Rugged mountain river canyon" />
+        <div class="gallery-label">Snake River Canyon · ID</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=500&q=80" alt="Open campfire cooking" />
+        <div class="gallery-label">Fire-roasted elk · Kettle Falls</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=80" alt="Vast open wheat plains" />
+        <div class="gallery-label">Palouse Harvest · WA</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1498887960847-2a5e46312788?w=500&q=80" alt="Whitewater river rafting" />
+        <div class="gallery-label">Methow River Raft · WA</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&q=80" alt="Outdoor rustic dining" />
+        <div class="gallery-label">Ranch Dinner · Ellensburg</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1475113548492-e570064d8e52?w=500&q=80" alt="Mountain landscape with forest" />
+        <div class="gallery-label">Colville National Forest · WA</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=700&q=80" alt="Dutch oven camp cooking" />
+        <div class="gallery-label">Dutch Oven Brisket · Yakima</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULLQUOTE -->
+  <div class="pullquote">
+    <blockquote>
+      "Food and light — these are the two things that turn a camp into a home and a photograph into a memory."
+    </blockquote>
+    <cite>— The Wild Table Philosophy</cite>
+  </div>
+
+  <!-- TERRITORY -->
+  <section class="territory" id="territory">
+    <div class="container">
+      <p class="section-eyebrow">Our Territory</p>
+      <h2 class="section-title">Based east of the mountains.<br><em>Ready to roam northwest.</em></h2>
+      <div class="territory-grid">
+        <div class="territory-text">
+          <p class="body-text">Wild Table is rooted in Eastern Washington — the Palouse, the Columbia Basin, the Channeled Scablands, and the Blue Mountains. This is home country, and we know it like the back of our knife hand.</p>
+          <p class="body-text">We regularly travel west of the Cascades and throughout Idaho, Oregon, and Montana. If your event is in the Pacific Northwest, we'll find a way to be there. Just give us the coordinates.</p>
+          <div class="region-list">
+            <div class="region-item">Eastern Washington</div>
+            <div class="region-item">Western Washington</div>
+            <div class="region-item">Northern Idaho</div>
+            <div class="region-item">Oregon</div>
+            <div class="region-item">Western Montana</div>
+            <div class="region-item">British Columbia</div>
+          </div>
+        </div>
+        <div class="territory-map">
+          <img
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=80"
+            alt="Eastern Washington landscape"
+          />
+          <div class="map-overlay"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIELD PHILOSOPHY -->
+  <section class="philosophy">
+    <div class="container">
+      <div class="field-rule"><span>How We Work</span></div>
+      <div style="margin-top: 1.5rem;">
+        <p class="section-eyebrow">Field Philosophy</p>
+        <h2 class="section-title">Three things we<br><em>never compromise.</em></h2>
+      </div>
+      <div class="philosophy-inner">
+        <div class="philosophy-block">
+          <div class="philosophy-num">I</div>
+          <h3 class="philosophy-heading">Ingredients that belong to the land</h3>
+          <p class="philosophy-text">Every menu is sourced with the region in mind. Local ranchers, Pacific Northwest fisheries, foraged seasonals, and ethically harvested game are the foundation — not an afterthought.</p>
+        </div>
+        <div class="philosophy-block">
+          <div class="philosophy-num">II</div>
+          <h3 class="philosophy-heading">Logistics you don't have to think about</h3>
+          <p class="philosophy-text">Remote means remote. We pack in, set up, serve, and pack out without leaving a trace. You focus on the hunt, the river, or the guests. We handle everything else.</p>
+        </div>
+        <div class="philosophy-block">
+          <div class="philosophy-num">III</div>
+          <h3 class="philosophy-heading">Photographs worth framing</h3>
+          <p class="philosophy-text">We don't produce stock imagery. Our field photography is honest, character-driven work — the kind that ends up on a wall, in a magazine, or as the defining image of a place you love.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOGRAPHY -->
+  <section class="photography" id="photography">
+    <div class="container">
+      <div class="field-rule"><span>Visual Craft</span></div>
+      <div class="photo-two-col">
+        <div class="photo-feature">
+          <img
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=80"
+            alt="Pacific Northwest forest and light"
+          />
+          <p class="photo-caption">Dawn light, Colville National Forest — Eastern Washington</p>
+        </div>
+        <div class="photo-copy">
+          <p class="section-eyebrow">Photography</p>
+          <h2 class="section-title">Light that tells<br>a <em>place's story.</em></h2>
+          <p class="body-text">The same eye that composes a plate composes a frame. Our photography work spans commercial, editorial, and fine-art commissions — always with a deep attention to natural light and honest subject matter.</p>
+          <p class="body-text">We specialize in outdoor lifestyle, food and culinary, wildlife, and the kind of working-land images that publications like Field & Stream, Outdoor Life, and regional ag journals are looking for.</p>
+          <div class="photo-meta-list">
+            <div class="photo-meta-item">
+              <div class="photo-meta-label">Specialties</div>
+              <div class="photo-meta-value">Outdoor lifestyle · Culinary · Wildlife · Ranch</div>
+            </div>
+            <div class="photo-meta-item">
+              <div class="photo-meta-label">Deliverables</div>
+              <div class="photo-meta-value">High-res print files, licensed digital sets, same-event edits</div>
+            </div>
+            <div class="photo-meta-item">
+              <div class="photo-meta-label">Turnaround</div>
+              <div class="photo-meta-value">Edited gallery within 10 business days of the event</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="field-rule" style="--rule: rgba(242,235,217,0.12);"><span style="color: rgba(242,235,217,0.3);">Reach Out</span></div>
+      <div class="contact-grid" style="margin-top: 1.5rem;">
+        <div class="contact-left">
+          <p class="section-eyebrow">Book an Event</p>
+          <h2 class="section-title">Let's plan something<br><em>worth remembering.</em></h2>
+          <p class="body-text">Whether you're six months out or need something together in six weeks — reach out early. We keep a limited calendar to make sure every client gets our full attention.</p>
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <span class="contact-info-label">Based In</span>
+              <span class="contact-info-value">Eastern Washington · Pacific Northwest</span>
+            </div>
+            <div class="contact-info-item">
+              <span class="contact-info-label">Email</span>
+              <span class="contact-info-value">hello@wildtablewa.com</span>
+            </div>
+            <div class="contact-info-item">
+              <span class="contact-info-label">Phone</span>
+              <span class="contact-info-value">(509) 555-0192</span>
+            </div>
+            <div class="contact-info-item">
+              <span class="contact-info-label">Service Radius</span>
+              <span class="contact-info-value">Pacific Northwest & Northern Rockies</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" placeholder="First & Last" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="(509) 000-0000" />
+            </div>
+            <div class="form-group">
+              <label for="event-type">Type of Event</label>
+              <select id="event-type">
+                <option value="" disabled selected>Select one…</option>
+                <option>River / Raft Trip</option>
+                <option>Hunt Camp</option>
+                <option>Ranch or Estate Event</option>
+                <option>Photography Only</option>
+                <option>Chef's Tasting Dinner</option>
+                <option>Custom Expedition</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="date">Anticipated Date(s)</label>
+            <input type="text" id="date" placeholder="e.g. October 10–14, 2025" />
+          </div>
+          <div class="form-group">
+            <label for="message">Tell us about it</label>
+            <textarea id="message" placeholder="Location, guest count, any special requests or notes…"></textarea>
+          </div>
+          <button class="form-submit" type="button">Send Inquiry →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><em>Wild</em> Table · Eastern Washington</div>
+    <div class="footer-copy">© 2025 Wild Table Catering & Photography · All rights reserved</div>
+    <div class="footer-coords">46.73° N · 117.00° W</div>
+  </footer>
+
+  <script>
+    // Nav scroll behavior
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Simple contact form feedback
+    document.querySelector('.form-submit').addEventListener('click', function () {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (!name || !email) {
+        this.textContent = 'Fill in name & email →';
+        this.style.background = '#8B4513';
+        setTimeout(() => {
+          this.textContent = 'Send Inquiry →';
+          this.style.background = '';
+        }, 2500);
+        return;
+      }
+      this.textContent = 'Message Sent ✓';
+      this.style.background = '#3a6b3c';
+      this.disabled = true;
+    });
+  </script>
+
+</body>
+</html>
